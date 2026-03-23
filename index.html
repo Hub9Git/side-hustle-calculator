@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Side Hustle Revenue Calculator – Estimate Your Digital Income</title>
+  <meta name="description" content="Calculate your potential monthly income from selling digital goods online. Free side hustle revenue estimator for social media services, gift cards, crypto vouchers & more." />
+  <meta property="og:title" content="Side Hustle Revenue Calculator" />
+  <meta property="og:description" content="Estimate your monthly earnings from digital products & services. Free, instant, no signup needed." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hub9git.github.io/side-hustle-calculator" />
+  <meta property="og:image" content="https://hub9git.github.io/side-hustle-calculator/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Side Hustle Revenue Calculator" />
+  <meta name="twitter:description" content="Estimate your monthly earnings from digital products & services. Free, instant." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0f;
+      --surface: #16181c;
+      --surface2: #1e2026;
+      --border: #2a2d35;
+      --accent: #7c5cfc;
+      --accent2: #a78bfa;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --radius: 12px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+    header {
+      text-align: center;
+      padding: 56px 24px 32px;
+      background: linear-gradient(180deg, #1a1040 0%, var(--bg) 100%);
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(124,92,252,0.15);
+      color: var(--accent2);
+      border: 1px solid rgba(124,92,252,0.3);
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* MAIN LAYOUT */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px 64px;
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent2);
+      margin-bottom: 20px;
+    }
+
+    /* PRODUCTS GRID */
+    .products-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .product-row {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      transition: border-color 0.2s;
+    }
+    .product-row:hover { border-color: var(--accent); }
+
+    .product-info { display: flex; align-items: center; gap: 12px; }
+    .product-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .product-name { font-weight: 600; font-size: 15px; }
+    .product-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .product-inputs {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .input-group { display: flex; flex-direction: column; align-items: flex-end; }
+    .input-label { font-size: 10px; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+    input[type="number"] {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      padding: 8px 12px;
+      width: 80px;
+      text-align: right;
+      transition: border-color 0.2s;
+    }
+    input[type="number"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    /* SETTINGS */
+    .settings-row {
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    .setting-item { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 140px; }
+    .setting-label { font-size: 13px; color: var(--muted); font-weight: 500; }
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+    }
+    .range-val { font-size: 14px; font-weight: 700; color: var(--accent2); }
+
+    /* RESULTS */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .result-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+    .result-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+    .result-value { font-size: 28px; font-weight: 800; }
+    .result-value.green { color: var(--green); }
+    .result-value.purple { color: var(--accent2); }
+    .result-value.yellow { color: var(--yellow); }
+
+    /* BREAKDOWN BAR */
+    .breakdown { margin-top: 8px; }
+    .breakdown-title { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+    .bar-item { margin-bottom: 12px; }
+    .bar-header { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+    .bar-track {
+      height: 8px; border-radius: 4px;
+      background: var(--border); overflow: hidden;
+    }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+
+    /* TIMELINE */
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+    }
+    .timeline-cell {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 8px;
+      text-align: center;
+    }
+    .timeline-month { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+    .timeline-val { font-size: 15px; font-weight: 700; color: var(--green); }
+
+    /* SHARE BUTTON */
+    .share-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      margin: 0 auto;
+    }
+    .share-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .share-btn:active { transform: translateY(0); }
+    .copy-toast {
+      text-align: center;
+      font-size: 13px;
+      color: var(--green);
+      margin-top: 10px;
+      height: 18px;
+      transition: opacity 0.3s;
+    }
+
+    /* CTA */
+    .cta-section {
+      margin-top: 48px;
+      background: linear-gradient(135deg, #1a1040 0%, #0d1a2e 100%);
+      border: 1px solid rgba(124,92,252,0.3);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: 24px; font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 12px;
+    }
+    .cta-section p { color: var(--muted); max-width: 440px; margin: 0 auto 24px; font-size: 15px; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 14px 32px;
+      font-size: 15px;
+      font-weight: 700;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .cta-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      .product-row { grid-template-columns: 1fr; }
+      .product-inputs { justify-content: flex-start; }
+      .cta-section { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Free Calculator</div>
+  <h1>Side Hustle Revenue Calculator</h1>
+  <p class="subtitle">Estimate your monthly income from digital products & services. Adjust your numbers and see earnings in real time.</p>
+</header>
+
+<main>
+
+  <!-- PRODUCTS -->
+  <div class="card">
+    <div class="card-title">📦 Your Digital Products</div>
+    <div class="products-grid" id="productsGrid">
+
+      <div class="product-row" data-id="smm">
+        <div class="product-info">
+          <div class="product-icon" style="background:rgba(29,161,242,0.15)">🚀</div>
+          <div>
+            <div class="product-name">Social Media Boosts</div>
+            <div class="product-desc">Likes, followers, views, engagement</div>
+          </div>
+        </div>
+        <div class="product-inputs">
+          <div class="input-group">
+            <div class="input-label">Sales/mo</div>
+            <input type="number" class="qty" min="0" value="15" data-id="smm" />
+          </div>
+          <div class="input-group">
+            <div class="input-label">Avg price $</div>
+            <input type="number" class="price" min="0" step="0.5" value="4.50" data-id="smm" />
+          </div>
+        </div>
+      </div>
+
+      <div class="product-row" data-id="gift">
+        <div class="product-info">
+          <div class="product-icon" style="background:rgba(34,197,94,0.15)">🎁</div>
+          <div>
+            <div class="product-name">Gift Cards & Vouchers</div>
+            <div class="product-desc">Digital gift cards, game codes, subscriptions</div>
+          </div>
+        </div>
+        <div class="product-inputs">
+          <div class="input-group">
+            <div class="input-label">Sales/mo</div>
+            <input type="number" class="qty" min="0" value="8" data-id="gift" />
+          </div>
+          <div class="input-group">
+            <div class="input-label">Avg price $</div>
+            <input type="number" class="price" min="0" step="1" value="12" data-id="gift" />
+          </div>
+        </div>
+      </div>
+
+      <div class="product-row" data-id="crypto">
+        <div class="product-info">
+          <div class="product-icon" style="background:rgba(234,179,8,0.15)">₿</div>
+          <div>
+            <div class="product-name">Crypto & Digital Assets</div>
+            <div class="product-desc">USDT, BTC, ETH, stablecoin P2P trades</div>
+          </div>
+        </div>
+        <div class="product-inputs">
+          <div class="input-group">
+            <div class="input-label">Trades/mo</div>
+            <input type="number" class="qty" min="0" value="5" data-id="crypto" />
+          </div>
+          <div class="input-group">
+            <div class="input-label">Avg profit $</div>
+            <input type="number" class="price" min="0" step="1" value="18" data-id="crypto" />
+          </div>
+        </div>
+      </div>
+
+      <div class="product-row" data-id="premium">
+        <div class="product-info">
+          <div class="product-icon" style="background:rgba(168,85,247,0.15)">⭐</div>
+          <div>
+            <div class="product-name">Premium Accounts & Access</div>
+            <div class="product-desc">Streaming, software, premium memberships</div>
+          </div>
+        </div>
+        <div class="product-inputs">
+          <div class="input-group">
+            <div class="input-label">Sales/mo</div>
+            <input type="number" class="qty" min="0" value="4" data-id="premium" />
+          </div>
+          <div class="input-group">
+            <div class="input-label">Avg price $</div>
+            <input type="number" class="price" min="0" step="1" value="25" data-id="premium" />
+          </div>
+        </div>
+      </div>
+
+      <div class="product-row" data-id="custom">
+        <div class="product-info">
+          <div class="product-icon" style="background:rgba(249,115,22,0.15)">✏️</div>
+          <div>
+            <div class="product-name">Custom / Other</div>
+            <div class="product-desc">Any other digital product or service</div>
+          </div>
+        </div>
+        <div class="product-inputs">
+          <div class="input-group">
+            <div class="input-label">Sales/mo</div>
+            <input type="number" class="qty" min="0" value="0" data-id="custom" />
+          </div>
+          <div class="input-group">
+            <div class="input-label">Avg price $</div>
+            <input type="number" class="price" min="0" step="1" value="0" data-id="custom" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="card">
+    <div class="card-title">⚙️ Business Settings</div>
+    <div class="settings-row">
+      <div class="setting-item">
+        <div class="setting-label">Platform fee / commission</div>
+        <input type="range" id="feeRange" min="0" max="40" value="12" step="1" />
+        <div class="range-val"><span id="feeVal">12</span>%</div>
+      </div>
+      <div class="setting-item">
+        <div class="setting-label">Monthly growth rate</div>
+        <input type="range" id="growthRange" min="0" max="50" value="10" step="1" />
+        <div class="range-val"><span id="growthVal">10</span>%</div>
+      </div>
+      <div class="setting-item">
+        <div class="setting-label">Monthly expenses ($)</div>
+        <input type="range" id="expRange" min="0" max="500" value="30" step="5" />
+        <div class="range-val">$<span id="expVal">30</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card">
+    <div class="card-title">💰 Your Revenue Snapshot</div>
+    <div class="results-grid">
+      <div class="result-box">
+        <div class="result-label">Gross Monthly</div>
+        <div class="result-value purple" id="resGross">$0</div>
+      </div>
+      <div class="result-box">
+        <div class="result-label">After Fees</div>
+        <div class="result-value green" id="resAfterFee">$0</div>
+      </div>
+      <div class="result-box">
+        <div class="result-label">Net Profit</div>
+        <div class="result-value green" id="resNet">$0</div>
+      </div>
+      <div class="result-box">
+        <div class="result-label">Annual Run Rate</div>
+        <div class="result-value yellow" id="resAnnual">$0</div>
+      </div>
+    </div>
+
+    <div class="breakdown" id="breakdown"></div>
+
+    <div style="margin-top:24px">
+      <div class="breakdown-title">📈 6-Month Revenue Forecast</div>
+      <div class="timeline-grid" id="timeline"></div>
+    </div>
+
+    <div style="text-align:center; margin-top:28px">
+      <button class="share-btn" onclick="shareResults()">
+        🔗 Copy Shareable Link
+      </button>
+      <div class="copy-toast" id="copyToast"></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Scale this with AI automation</h2>
+    <p>SureThing is the AI agent that handles your outreach, follow-ups, and business workflows — while you sleep.</p>
+    <a href="https://surething.io" target="_blank" rel="noopener" class="cta-btn">
+      ⚡ Try SureThing Free
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  Built with <a href="https://surething.io" style="color:var(--accent2);text-decoration:none">SureThing</a> · Side Hustle Revenue Calculator
+</footer>
+
+<script>
+  const COLORS = ['#7c5cfc','#22c55e','#eab308','#a855f7','#f97316'];
+  const NAMES = {smm:'Social Media',gift:'Gift Cards',crypto:'Crypto',premium:'Premium',custom:'Custom'};
+
+  function getInputs() {
+    const rows = {};
+    document.querySelectorAll('.qty').forEach(el => {
+      const id = el.dataset.id;
+      if(!rows[id]) rows[id] = {};
+      rows[id].qty = parseFloat(el.value)||0;
+    });
+    document.querySelectorAll('.price').forEach(el => {
+      const id = el.dataset.id;
+      if(!rows[id]) rows[id] = {};
+      rows[id].price = parseFloat(el.value)||0;
+    });
+    return rows;
+  }
+
+  function fmt(n) {
+    if(n>=1000) return '$'+(n/1000).toFixed(1)+'k';
+    return '$'+n.toFixed(0);
+  }
+
+  function calc() {
+    const rows = getInputs();
+    const fee = parseFloat(document.getElementById('feeRange').value)/100;
+    const growth = parseFloat(document.getElementById('growthRange').value)/100;
+    const exp = parseFloat(document.getElementById('expRange').value)||0;
+
+    let gross = 0;
+    const breakdown = [];
+    for(const [id,r] of Object.entries(rows)) {
+      const rev = r.qty * r.price;
+      gross += rev;
+      if(rev>0) breakdown.push({id, rev, name: NAMES[id]});
+    }
+
+    const afterFee = gross * (1-fee);
+    const net = Math.max(0, afterFee - exp);
+
+    document.getElementById('resGross').textContent = fmt(gross);
+    document.getElementById('resAfterFee').textContent = fmt(afterFee);
+    document.getElementById('resNet').textContent = fmt(net);
+    document.getElementById('resAnnual').textContent = fmt(net*12);
+
+    // Breakdown bars
+    const bd = document.getElementById('breakdown');
+    if(breakdown.length > 0) {
+      bd.innerHTML = '<div class="breakdown-title">Revenue breakdown</div>' +
+        breakdown.map((b,i) => `
+          <div class="bar-item">
+            <div class="bar-header">
+              <span>${b.name}</span>
+              <span style="color:${COLORS[i%COLORS.length]}">${fmt(b.rev)}</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width:${gross>0?Math.round(b.rev/gross*100):0}%;background:${COLORS[i%COLORS.length]}"></div>
+            </div>
+          </div>`).join('');
+    } else {
+      bd.innerHTML = '<div style="text-align:center;color:var(--muted);padding:12px">Enter some numbers above to see your breakdown ↑</div>';
+    }
+
+    // 6-month timeline
+    const tl = document.getElementById('timeline');
+    const months = ['Month 1','Month 2','Month 3','Month 4','Month 5','Month 6'];
+    tl.innerHTML = months.map((m,i) => {
+      const v = net * Math.pow(1+growth, i);
+      return `<div class="timeline-cell"><div class="timeline-month">${m}</div><div class="timeline-val">${fmt(v)}</div></div>`;
+    }).join('');
+  }
+
+  function shareResults() {
+    const rows = getInputs();
+    const params = new URLSearchParams();
+    for(const [id,r] of Object.entries(rows)) {
+      params.set(id+'_qty', r.qty);
+      params.set(id+'_price', r.price);
+    }
+    params.set('fee', document.getElementById('feeRange').value);
+    params.set('growth', document.getElementById('growthRange').value);
+    params.set('exp', document.getElementById('expRange').value);
+    const url = window.location.href.split('?')[0]+'?'+params.toString();
+    navigator.clipboard.writeText(url).then(()=>{
+      const t = document.getElementById('copyToast');
+      t.textContent = '✓ Link copied to clipboard!';
+      t.style.opacity='1';
+      setTimeout(()=>t.style.opacity='0',2500);
+    });
+  }
+
+  function loadFromParams() {
+    const p = new URLSearchParams(window.location.search);
+    const ids = ['smm','gift','crypto','premium','custom'];
+    ids.forEach(id=>{
+      const q=p.get(id+'_qty'), pr=p.get(id+'_price');
+      if(q!==null) document.querySelector(`.qty[data-id="${id}"]`).value=q;
+      if(pr!==null) document.querySelector(`.price[data-id="${id}"]`).value=pr;
+    });
+    if(p.get('fee')) document.getElementById('feeRange').value=p.get('fee');
+    if(p.get('growth')) document.getElementById('growthRange').value=p.get('growth');
+    if(p.get('exp')) document.getElementById('expRange').value=p.get('exp');
+  }
+
+  // Range display
+  ['fee','growth','exp'].forEach(key=>{
+    const el = document.getElementById(key+'Range');
+    el.addEventListener('input',()=>{
+      document.getElementById(key+'Val').textContent=el.value;
+      calc();
+    });
+  });
+
+  // Input changes
+  document.querySelectorAll('.qty,.price').forEach(el=>el.addEventListener('input',calc));
+
+  // Init
+  loadFromParams();
+  calc();
+</script>
+</body>
+</html>
